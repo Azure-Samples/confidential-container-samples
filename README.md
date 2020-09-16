@@ -1,14 +1,16 @@
 ---
 page_type: sample
 languages:
-- yaml, python, shell
+- yaml
+- python
+- shell
+- C++
 products:
 - azure-confidential-computing
 - azure-kubernetes-service
 - azure attestation-service
-description: |
-  Confidential containers on AKS samples
-urlFragment:confidential-containers-samples
+description: "Confidential containers on AKS samples"
+urlFragment: confidential-containers-samples
 ---
 
 # Confidential Containers Samples
