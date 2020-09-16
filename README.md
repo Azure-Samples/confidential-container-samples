@@ -1,57 +1,19 @@
-# Project Name
+# Confidential Containers Samples
 
-(short, 1-3 sentenced, description of the project)
+The term “confidential containers” refers to docker application (new or existing) containers packaged with additional components if necessary to run on the hardware that provides strong protections of Confidential Computing to improve the overall security posture of the container application and the data-in-use.
 
-## Features
+Confidential containers is about taking an existing docker container application and running it on a hardware based Trusted Execution Environment (enclave). This is the fastest path to container confidentiality including the container protection through encryption, thus enabling lift and shift with no/minimal changes to your business logic.
 
-This project framework provides the following features:
+[Read more here](http://aka.ms/confidentialcontainers)
 
-* Feature 1
-* Feature 2
-* ...
+## Samples Collection Index
 
-## Getting Started
+This repo is organized by folders that states the sample name followed by the enablers of confidential containers. A typical folder name follows this standard < samplename >-< enabername > :
+
+* [Confidential HealthCare Demo With Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md) 
 
 ### Prerequisites
 
-(ideally very short, if any)
+This implementation assumed the samples would be deployed into Azure Kubernetes Service (AKS) with Confidential Computing Nodes.
 
-- OS
-- Library version
-- ...
-
-### Installation
-
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
-
-### Quickstart
-(Add steps to get up and running quickly)
-
-1. git clone [repository clone url]
-2. cd [respository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
-
-## Resources
-
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+Please read more about Confidential Computing Nodes on AKS [here](https://aka.ms/acconakspreview).

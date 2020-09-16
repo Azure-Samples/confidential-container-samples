@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+<title>Lamna Hospital Portal</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.20/jsrsasign-all-min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/stylesheets/style.css"/>
+</head>
+<body>
+
+<div id="logo">
+ <img src="/images/logo192.png" alt="Logo" srcset="" class="logo"/>
+</div>
+
+<h1>Lamna Hospital Portal</h1>
+
+<div id="welcome">
+<h3>Patient Processing</h3>
+<br/>
+<form id="lookup" action="javascript:void(0)">
+  <br/>
+<span class="label">Patient SSN:</span><input type="text" name="pid" id="pid" placeholder="123-456-7890" />
+<br/><br/>
+<input type="submit" value="Lookup" class="btn" id="lbtn" />
+</form>
+</div>
+
+<div id="newpatient" style="display:none">
+<h3>New Patient Intake Form</h3>
+<br/>
+<form id="new" action="javascript:void(0)">
+<table>
+<tr><td><span class="label">First Name</span></td><td><input type="text" name="fname"/></td></tr>
+<tr><td><span class="label">Last Name</span></td><td><textarea type="text" name="lname"></textarea></td></tr>
+<tr><td><span class="label">Address</span></td><td><textarea type="text" name="address"></textarea></td></tr>
+<tr><td><span class="label">City</span></td><td><input type="text" name="city" cols="40"/></td></tr>
+<tr><td><span class="label">State</span></td><td><textarea type="text" name="state" cols="40"></textarea></td></tr>
+<tr><td><span class="label">SSN</span></td><td><textarea type="text" name="ssn" id="ssni"></textarea></td></tr>
+<tr><td><span class="label">Email</span></td><td><textarea type="text" name="email"></textarea></td></tr>
+<tr><td><span class="label">DOB</span></td><td><textarea type="text" name="dob"></textarea></td></tr>
+<tr><td><span class="label">Contact Phone</span></td><td><textarea type="text" name="contactphone"></textarea></td></tr>
+<tr><td><span class="label">Drug Allergies</span></td><td><textarea type="text" name="drugallergies" rows="4"></textarea></td></tr>
+<tr><td><span class="label">Pre Existing Conditions</span></td><td><textarea type="text" name="preexistingconditions" rows="4"></textarea></td></tr>
+<tr><td><span class="label">Date Admitted</span></td><td><textarea type="text" name="dateadmitted"></textarea></td></tr>
+<tr><td><span class="label">Insurance Provider</span></td><td><textarea type="text" name="insurancedetails"></textarea></td></tr>
+</table>
+<br/><br/>
+<div class="actions">
+ <input type="submit" value="Submit" id="newbtn" class="btn"/>
+ <input type="button" value="Back" onclick="setTab('welcome');" class="btn" />
+</div>
+</form>
+</div>
+
+<div id="patient" style="display:none">
+<h2>Patient Record</h2>
+
+<table id="ptable">
+
+</table>
+
+<br />
+<h2>Diagnosis Assistance</h2>
+
+<form id="diag" action="javascript:void(0)">
+<span class="input">Select brain MRI picture:</span>
+<input type="file" id="mri" name="file" />
+<input type="submit" value="Check for abnormality" class="btn" id="diagbtn" />
+</form>
+
+<div><img id="cml" style="display:none" /></div>
+
+<p><input type="button" value="Back" onclick="setTab('welcome');" class="btn" /></p>
+</div>
+
+<p>&nbsp;</p>
+
+<input type="button" value="View Attestation Information" class="btn" onclick="$('#attest').toggle()" /><br />
+
+<table id="attest" style="display:none;font-family:monospace;word-break:break-all;width:800px;">
+<tr><td>Status</td><td>Loading in progress...</td></tr>
+</table>
+
+<canvas width="256" height="256" id="cv" style="display:none;"></canvas>
+
+<div id="footer"><p>Copyright - All Rights Reserved.</p></div>
+
+<script type="text/javascript">
+function setTab(t){
+  var tabs = ["welcome", "newpatient", "patient"];
+  tabs.forEach(function(tab){
+    if(tab == t){ $('#'+tab).show(); }
+    else $('#'+tab).hide()
+  });
+}
+
+function setPatient(p){
+ var t = $("#ptable");
+ var fnames = {address: "Address", city:"City", contactphone:"Phone number", dateadmitted:"Date admitted", dob:"Date of birth", drugallergies:"Drug allergies", email:"Email address", fname:"First Name", insurancedetails:"Insurance provider", lname:"Last Name", preexistingconditions:"Pre-existing conditions",
+ ssn: "Social Security Number", state:"State"};
+ t.html("");
+ for(var f in p){
+   if(!fnames[f]) continue;
+   t.append("<tr><td>"+fnames[f]+"</td><td>"+p[f]+"</td></tr>");
+ }
+}
+
+function urlsafe(x){
+  return x.replace(/[+/=]/g, function(x){return x=='+'?'-':(x=='/'?'_':'');});
+}
+
+$(function(){
+ var xhr = $.ajax({
+  url: "https://ignite2020-acc-aks-demo.eastus.cloudapp.azure.com/sgx_report", type:"GET"
+ }).done(function(sgx){
+  $("#attest").html('<tr><td width="100">Scone Quote</td><td><textarea rows="2" cols="80">'+sgx['sgx_quote']+'</textarea></td></tr>');
+  $("#attest").append('<tr><td>Scone certificate</td><td><textarea rows="2" cols="80">'+atob(sgx['sgx_ehd'])+'</textarea></td></tr>');
+  var c = new X509();
+  c.readCertPEM("-"+atob(sgx['sgx_ehd']).split("-\n-")[0]);
+  $("#attest").append('<tr><td>Certificate info</td><td><textarea rows="4" cols="80" id="certinfo"></textarea></td></tr>');
+  $("#certinfo").text(c.getInfo());
+
+  // Dummy inference on empty picture to get quote & attestation token
+  $("#cv")[0].toBlob(function(blob){
+    var data = new FormData();
+    data.append('img', blob, "empty.jpg");
+    $.ajax({
+      url: 'https://ignite2020-acc-aks-demo.eastus.cloudapp.azure.com/delineate',
+      data: data, type: 'POST',
+      processData: false, contentType: false
+    }).done(function(r){
+      $("#attest").append('<tr><td width="100">ONNX Quote</td><td><textarea rows="2" cols="80">'+r['sgx_quote']+'</textarea></td></tr>');
+      $("#attest").append('<tr><td>ONNX Report</td><td><textarea rows="2" cols="80">'+r['sgx_ehd']+'</textarea></td></tr>');
+      $("#attest").append('<tr><td>MAA Token</td><td><textarea rows="2" cols="80">'+r['maa_token']+'</textarea></td></tr>');
+      var t = JSON.parse(atob(r['maa_token'].split('.')[1]));
+      $("#attest").append('<tr><td>MAA Claims</td><td><table style="width:100%;" id="maaclaims"></table></td></tr>');
+      for(var c in t){
+        var v = typeof t[c]=="object" ? JSON.stringify(t[c]) : t[c];
+        $("#maaclaims").append('<tr><td width="120">'+c+'</td><td>'+v+'</td></tr>');
+      }
+    });
+  }, "image/jpeg");
+ });
+
+ $('#lookup').on("submit", function(){
+  $('#lbtn').prop('disabled',true);
+  var xhr = $.ajax("https://ignite2020-acc-aks-demo.eastus.cloudapp.azure.com/patient/"+$('#pid').val(), {method:"GET"});
+  xhr.done(function(patient){setTab('patient'); setPatient(patient);});
+  xhr.fail(function(){setTab('newpatient');$('#ssni').val($('#pid').val());});
+  xhr.always(function(){$('#lbtn').prop("disabled",false)})
+  return false;
+ });
+ $('#new').on("submit", function(){
+  var obj = {};
+  $('#new textarea,#new input[type="text"]').each(function(f,e){obj[e.name] = e.value});
+  $('#newbtn').prop("disabled",true);
+  var xhr = $.ajax({
+   url: "https://ignite2020-acc-aks-demo.eastus.cloudapp.azure.com/patient/"+obj.ssn,
+   method: "POST",
+   data: obj
+  });
+  xhr.done(function(patient){setTab('patient'); setPatient(patient);});
+  xhr.fail(function(){alert("Failed to add patient record!");});
+  xhr.always(function(){$('#newbtn').prop("disabled",false)})
+  return false;
+ });
+ $('#diag').on("submit", function(){
+  var data = new FormData();
+  $('cml').hide();
+  $('#diagbtn').prop("disabled",true)
+  data.append('img', $('#mri')[0].files[0]);
+  var xhr = $.ajax({
+    url: 'https://ignite2020-acc-aks-demo.eastus.cloudapp.azure.com/delineate',
+    data: data,
+    processData: false,
+    contentType: false,
+    type: 'POST'
+  });
+  xhr.fail(function(){alert('Analysis failed!');});
+  xhr.done(function(data){
+    $('#cml').prop("src","data:image/png;base64,"+data['img_delineated']);
+    $('#cml').show();
+    console.log(data);
+    alert('Delineation successful');
+  });
+  xhr.always(function(){$('#diagbtn').prop("disabled",false)})
+  return false;
+ });
+});
+</script>
+
+</body>
+
+</html>

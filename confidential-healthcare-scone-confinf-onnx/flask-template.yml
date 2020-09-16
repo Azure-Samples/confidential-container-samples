@@ -1,0 +1,79 @@
+name: $FLASK_SESSION
+version: "0.3"
+
+# Access control:
+#   - only the data owner (CREATOR) can read or update the session
+#   - even the data owner cannot read the session secrets (i.e., the volume key and tag) or delete the session
+
+access_policy:
+  read:
+   - CREATOR
+  update:
+   - CREATOR
+
+services:
+   - name: flask_restapi
+     image_name: flask_restapi_image
+     mrenclaves: [$MRENCLAVE]
+     command: "/opt/scone/lib/glibc-loader /root/miniconda/bin/python3.8 -u /fspf/encrypted-files/rest_api.py"
+     environment:
+      SCONE_MODE: hw
+      SCONE_LOG: "7"
+      CONFONNX_DUMP_QUOTE: "1"
+      CONFONNX_URL: $CONFONNX_URL
+      CONFONNX_API_KEY: $CONFONNX_API_KEY
+      AZ_APP_ID: $AZ_APP_ID
+      AZ_APP_PWD: $AZ_APP_PWD
+      OE_LOG_LEVEL: VERBOSE
+     pwd: /
+     fspf_tag: $SCONE_FSPF_TAG
+     fspf_key: $SCONE_FSPF_KEY
+     fspf_path: /fspf/fs.fspf
+
+images:
+   - name: flask_restapi_image
+     injection_files:
+        - path: /tls/flask.crt
+          content: $$SCONE::flask.crt$$
+        - path: /tls/flask.key
+          content: $$SCONE::flask.key$$
+        - path: /tls/redis-ca.crt
+          content: $$SCONE::redis_ca_cert.chain$$
+        - path: /tls/client.crt
+          content: $$SCONE::redis_client_cert.crt$$
+        - path: /tls/client.key
+          content: $$SCONE::redis_client_cert.key$$
+
+# Import client credentials from DB session.
+secrets:
+    - name: api_ca_key
+      kind: private-key
+    - name: api_ca_cert
+      kind: x509-ca
+      export_public: true
+      private_key: api_ca_key
+    - name: flask_key
+      kind: private-key
+    - name: flask
+      kind: x509
+      private_key: flask_key
+      issuer: api_ca_cert
+      dns:
+        - $FLASK_HOSTNAME
+    - name: redis_client_key
+      import:
+        session: $REDIS_SESSION
+        secret: redis_client_key
+    - name: redis_client_cert
+      import:
+        session: $REDIS_SESSION
+        secret: redis_client_cert
+    - name: redis_ca_cert
+      import:
+        session: $REDIS_SESSION
+        secret: redis_ca_cert
+
+security:
+  attestation:
+    tolerate: [debug-mode, hyperthreading, insecure-igpu, outdated-tcb]
+    ignore_advisories: ["INTEL-SA-00161", "INTEL-SA-00220", "INTEL-SA-00270", "INTEL-SA-00293", "INTEL-SA-00320", "INTEL-SA-00329"]
