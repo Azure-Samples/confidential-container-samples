@@ -1,0 +1,61 @@
+name: $REDIS_SESSION
+version: "0.3"
+
+access_policy:
+  read:
+   - CREATOR
+  update:
+   - CREATOR
+
+services:
+  - name: redis
+    image_name: redis_image
+    command: redis-server --tls-port 6379 --port 0 --tls-cert-file /tls/redis.crt --tls-key-file /tls/redis.key --tls-ca-cert-file /tls/ca.crt
+    mrenclaves: ["$MRENCLAVE"]
+    pwd: /
+
+images:
+  - name: redis_image
+    injection_files:
+       - path: /tls/ca.crt
+         content: $$SCONE::redis_ca_cert.chain$$ # Export this session's CA certificate & chain
+       - path: /tls/redis.crt
+         content: $$SCONE::redis.crt$$
+       - path: /tls/redis.key
+         content: $$SCONE::redis.key$$
+       - path: /tls/client.crt
+         content: $$SCONE::redis_client_cert.crt$$
+       - path: /tls/client.key
+         content: $$SCONE::redis_client_cert.key$$
+
+secrets:
+  - name: redis_key
+    kind: private-key
+  - name: redis # automatically generate Redis server certificate
+    kind: x509
+    private_key: redis_key
+    issuer: redis_ca_cert
+    dns:
+     - redis
+  - name: redis_client_key
+    kind: private-key
+    export:
+    - session: $FLASK_SESSION
+  - name: redis_client_cert # automatically generate client certificate
+    kind: x509
+    issuer: redis_ca_cert
+    private_key: redis_client_key
+    export:
+    - session: $FLASK_SESSION # export client cert/key to client session
+  - name: redis_ca_key
+    kind: private-key
+  - name: redis_ca_cert # export session CA certificate as Redis CA certificate
+    kind: x509-ca
+    private_key: redis_ca_key
+    export:
+    - session: $FLASK_SESSION # export the session CA certificate to client session
+
+security:
+  attestation:
+    tolerate: [debug-mode, hyperthreading, insecure-igpu, outdated-tcb]
+    ignore_advisories: ["INTEL-SA-00161", "INTEL-SA-00220", "INTEL-SA-00270", "INTEL-SA-00293", "INTEL-SA-00320", "INTEL-SA-00329"]

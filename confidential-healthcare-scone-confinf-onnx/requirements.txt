@@ -1,0 +1,6 @@
+flask
+redis
+flask_restful
+pillow
+numpy
+cffi

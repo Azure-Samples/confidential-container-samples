@@ -1,0 +1,29 @@
+version: '3.2'
+services:
+    las:
+        image: sconecuratedimages/services:las-scone4.2.1
+        devices:
+         - "$DEVICE"
+    redis:
+        image: sconecuratedimages/experimental:redis-6-ubuntu
+        command: sh -c "sleep 5; SCONE_LOG=7 SCONE_LAS_ADDR=las SCONE_CAS_ADDR=$SCONE_CAS_ADDR SCONE_CONFIG_ID=$REDIS_SESSION/redis redis-server"
+        devices:
+         - "$DEVICE"
+        depends_on:
+         - las
+        ports:
+         - "6379"
+        environment:
+         - SCONE_VERSION=1
+    python:
+        image: "$IMAGE"
+        devices:
+         - "$DEVICE"
+        command: sh -c "sleep 5; SCONE_LOG=7 SCONE_LAS_ADDR=las SCONE_CAS_ADDR=$SCONE_CAS_ADDR SCONE_CONFIG_ID=$FLASK_SESSION/flask_restapi /opt/scone/lib/ld-scone-x86_64.so.1 /root/miniconda/bin/python3"
+        depends_on:
+         - las
+        privileged: true
+        ports:
+         - "4996:4996"
+        links:
+         - redis

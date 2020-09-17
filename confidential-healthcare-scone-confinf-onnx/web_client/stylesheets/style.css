@@ -1,0 +1,44 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: white;
+}
+
+a {
+  color: #0dddFF;
+}
+
+.btn
+{
+  background:green;
+  font:14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #6dd5fa;
+  padding-block: 20;
+}
+
+.logo
+{
+  max-width: 200px;
+
+}
+
+table {
+  border: 1px solid gray;
+  width: 50%;
+}
+
+fieldset {
+  width: 800px;
+  border: 2px solid gray;
+}
+
+legend {
+ font-size:1.4em;
+ margin:50px 20px 0px 20px;
+ width: 200px;
+}
+
+tr:nth-child(even) {background: #CCC; }
+tr:nth-child(odd) {background: #eee; }
+td:nth-child(1){border-right: 1px solid gray; }
+
