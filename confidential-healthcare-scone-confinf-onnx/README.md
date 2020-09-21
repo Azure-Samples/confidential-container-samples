@@ -20,10 +20,10 @@ Fabrikam chooses to also host its services on confidential computing providing t
 
 ### Provider Dependencies
 
-1. Azure Partner (ISV) - [Scontain (SCONE)](https://sconedocs.github.io/) - 
-2. Open Source Solution (OSS) - [Confidential Inferencing ONNX Runtime](aka.ms)
+1. Azure Partner (ISV) - [Scontain (SCONE)](https://sconedocs.github.io/) 
+2. Open Source Solution (OSS) - [Confidential Inferencing ONNX Runtime](https://aka.ms/confidentialinference)
 3. Azure 1st Party Service - [Azure Attestation](https://aka.ms/azureattestation)
-4. Azure 1st Party Service  - [Azure Kubernetes Service with confidential computing nodes](aka.ms/acconakspreview) 
+4. Azure 1st Party Service  - [Azure Kubernetes Service with confidential computing nodes](https://aka.ms/acconakspreview) 
 
 ### Programming Language
 
@@ -31,7 +31,8 @@ Python, C++, Shell Script
 
 ## A simple flask example executed inside of an SGX enclave
 
->!NOTE: This sample leverages the Scone Flask WEB API Samples referenced [here](https://sconedocs.github.io/flask_demo/). Please download the latest implementation from the Scone Flask Web API Samples Repo for the latest code. Scone ISV licensing may need to procured to run.
+> !NOTE:
+> This sample leverages the Scone Flask WEB API Samples referenced [here](https://sconedocs.github.io/flask_demo/). Please download the latest implementation from the Scone Flask Web API Samples Repo for the latest code. Scone ISV licensing may need to procured to run.
 
 ## Setup
 
