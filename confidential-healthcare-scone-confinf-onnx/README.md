@@ -16,6 +16,10 @@ Fabrikam chooses to also host its services on confidential computing providing t
 
 ![Implementation architecture](./healthcaredemo-architecture.jpg)
 
+## Live Demo
+
+> [!VIDEO https://www.youtube.com/watch?v=PiYCQmOh0EI&feature=youtu.be]
+
 ## Implementation Dependencies
 
 ### Provider Dependencies
@@ -213,4 +217,3 @@ helm delete sgxdevplugin
 helm delete api-v1
 kubectl delete pod api-v1-example-test-api
 ```
-
