@@ -27,6 +27,8 @@ Confidential containers is about taking an existing docker container application
 
 Use this repository to develop a LUIS application while following DevOps engineering practices that adhere to software engineering fundamentals around source control, testing, CI/CD and release management. This template repository provides a working project structure and GitHub Actions pipelines that you can customize for use with your own project.
 
+For container samples that are programmed to run in the enclaves (enclave aware containers) please visit [this](https://github.com/azure-samples/confidential-computing) samples repo.
+
 **Important:** This repo is aggregated samples based on real world customer scenarios based and may involve Azure Partner Solution or an Open Source Project dor its implementation. All implementations in this repo will host Azure Kubernetes Service (AKS) based deployments.
 
 ## Prerequisites
