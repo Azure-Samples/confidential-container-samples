@@ -1,0 +1,2 @@
+azure.identity==1.4.0
+pygtail==0.11.1

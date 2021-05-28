@@ -1,14 +1,14 @@
 ---
 page_type: sample
 languages:
-- yaml
-- python
-- shell
-- C++
+  - yaml
+  - python
+  - shell
+  - C++
 products:
-- azure-confidential-computing
-- azure-kubernetes-service
-- azure attestation-service
+  - azure-confidential-computing
+  - azure-kubernetes-service
+  - azure attestation-service
 description: "Confidential containers on AKS samples"
 urlFragment: confidential-containers-samples
 ---
@@ -42,11 +42,19 @@ This repo is organized by folders that states the sample name followed by the en
 
 ### Confidential Healthcare Application
 
-[Confidential HealthCare Implementation with Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md) 
+[Confidential HealthCare Implementation with Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md)
+
+### Confidential Analytics with Spark and Azure SQL
+
+[Confidential Analytics with Apache Spark on SGX-enabled Containers using Scone](sgx-pyspark-sql/README.md)
+
+### Confidential Web Application Hosting - End-to-end
+
+[Hosting an End-to-end Sensitive Web App with Azure Confidential VM, Azure SQL, AKV and Azure Confidnetial Ledger](hrapp-on-confidential-cloud/README.md)
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit <https://cla.opensource.microsoft.com.>
 
