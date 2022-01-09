@@ -348,3 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# SCONE container build directory
+confidential-big-data-spark/build/
+.vscode/settings.json
