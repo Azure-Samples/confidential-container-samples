@@ -13,15 +13,15 @@ description: "Confidential containers on AKS samples"
 urlFragment: confidential-containers-samples
 ---
 
-# Confidential Containers Samples
+# Confidential container Samples
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
-> **Confidential Computing Nodes on AKS** is currently under **public preview** and is not ready for production use. Read more [here](https://aka.ms/acconakspreview).
+Confidential containers are a set of capabilities that allow standard containers (Linux or Windows) to run in a hardware root of trusted established enviornment. Confidential containers refer to a set of capabilities that achieves the principles of confidential computing.
 
 The term “confidential containers” refers to docker application (new or existing) containers packaged with additional components if necessary to run on the hardware that provides strong protections of Confidential Computing to improve the overall security posture of the container application and the data-in-use.
 
-Confidential containers is about taking an existing docker container application and running it on a hardware based Trusted Execution Environment (enclave). This is the fastest path to container confidentiality including the container protection through encryption, thus enabling lift and shift with no/minimal changes to your business logic.
+Confidential containers run in a hardware based Trusted Execution Environment often referred as an enclave. Containers running in an enclave allows establishing trust to an execution environment to perform any sensitive data processing. Confidential containers is the fastest path to achieve container confidentiality including code integrity, data confidentiality from cloud operator and data integrity. Confidential containers enable taking an existing unmodified docker containers and run in an enclave security.
 
 [Read more here](http://aka.ms/confidentialcontainers)
 
@@ -29,7 +29,7 @@ Use this repository to develop a LUIS application while following DevOps enginee
 
 For container samples that are programmed to run in the enclaves (enclave aware containers) please visit [this](https://github.com/azure-samples/confidential-computing) samples repo.
 
-**Important:** This repo is aggregated samples based on real world customer scenarios based and may involve Azure Partner Solution or an Open Source Project dor its implementation. All implementations in this repo will host Azure Kubernetes Service (AKS) based deployments.
+**Important:** This repo is aggregated samples based on real world customer scenarios based and may involve Azure Partner Solution or an Open Source Project for its implementation. All implementations in this repo will host Azure Kubernetes Service (AKS) based deployments. Please review the sample repo for pre-requisites to deploy and run this application.
 
 ## Prerequisites
 
@@ -40,11 +40,11 @@ For container samples that are programmed to run in the enclaves (enclave aware 
 
 This repo is organized by folders that states the sample name followed by the enablers of confidential containers. A typical folder name follows this standard < samplename >-< enabername > :
 
-### Confidential Healthcare Application
+### Confidential Healthcare Application with Intel SGX based confidential containers
 
 [Confidential HealthCare Implementation with Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md) 
 
-### Confidential Big Data Analytics with Apache Spark and Azure SQL
+### Confidential Big Data Analytics with Apache Spark and Azure SQL Always Encrypted with secured enclaves with Intel SGX based confidential containers
 
 [Confidential Big Data Analytics with Apache Spark on SGX-enabled Containers using Scone](confidential-big-data-spark/README.md)
 
