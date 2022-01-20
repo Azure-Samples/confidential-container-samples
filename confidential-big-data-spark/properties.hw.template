@@ -1,0 +1,23 @@
+spark.authenticate true
+spark.authenticate.secret.file /etc/secret
+spark.network.crypto.enabled true
+spark.io.encryption.enabled true
+spark.kubernetes.authenticate.driver.serviceAccountName spark-sa
+spark.kubernetes.container.image.pullPolicy Always
+spark.driver.memory 8G
+spark.kubernetes.driver.container.image $SPARK_IMAGE
+spark.kubernetes.driver.podTemplateFile /build/kubernetes/hw-sgx-pod-template.yaml
+spark.kubernetes.driverEnv.SCONE_MODE hw
+spark.kubernetes.driverEnv.SCONE_VERSION 1
+spark.kubernetes.driverEnv.SCONE_CAS_ADDR $SCONE_CAS_ADDR
+spark.kubernetes.driverEnv.SCONE_CONFIG_ID $SCONE_CONFIG_ID-driver-java
+spark.executor.instances 3
+spark.executor.memory 5G
+spark.executor.memoryOverhead 4G
+spark.executorEnv.SCONE_MODE hw
+spark.executorEnv.SCONE_VERSION 1
+spark.executorEnv.SCONE_CAS_ADDR $SCONE_CAS_ADDR
+spark.executorEnv.SCONE_CONFIG_ID $SCONE_CONFIG_ID-exec
+spark.kubernetes.executor.container.image $SPARK_IMAGE
+spark.kubernetes.executor.podTemplateFile /build/kubernetes/hw-sgx-pod-template.yaml
+

@@ -44,6 +44,10 @@ This repo is organized by folders that states the sample name followed by the en
 
 [Confidential HealthCare Implementation with Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md) 
 
+### Confidential Big Data Analytics with Apache Spark and Azure SQL
+
+[Confidential Big Data Analytics with Apache Spark on SGX-enabled Containers using Scone](confidential-big-data-spark/README.md)
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a

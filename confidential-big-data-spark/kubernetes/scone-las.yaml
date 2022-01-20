@@ -1,0 +1,43 @@
+---
+# Source: las/templates/daemonset.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: las
+  labels:
+    helm.sh/chart: las-0.3.3
+    app.kubernetes.io/name: las
+    app.kubernetes.io/instance: las
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: las
+      app.kubernetes.io/instance: las
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: las
+        app.kubernetes.io/instance: las
+    spec:
+      imagePullSecrets:
+        - name: sconeapps
+      volumes:
+        - name: aesmd
+          hostPath:
+            path: /var/run/aesmd
+      containers:
+        - name: las
+          image: "registry.scontain.com:5050/sconecuratedimages/kubernetes:las-scone5.5.0"
+          imagePullPolicy: "Always"
+          ports:
+          - containerPort: 18766
+            name: attestation
+            protocol: TCP
+            hostPort: 18766
+          resources:
+            limits:
+              kubernetes.azure.com/sgx_epc_mem_in_MiB: 4
+          volumeMounts:
+          - name: aesmd
+            mountPath: /var/run/aesmd

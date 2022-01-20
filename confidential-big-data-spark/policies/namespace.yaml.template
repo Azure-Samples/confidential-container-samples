@@ -1,0 +1,12 @@
+# Create a CAS namespace to hold your policies and avoid name conflicts.
+# More info: https://sconedocs.github.io/namespace/
+name: $CAS_NAMESPACE
+version: "0.3"
+
+access_policy:
+  read:
+   - CREATOR
+  update:
+   - CREATOR
+  create_sessions:
+    - CREATOR
