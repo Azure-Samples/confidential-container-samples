@@ -13,7 +13,7 @@ description: "Confidential containers on AKS samples"
 urlFragment: confidential-containers-samples
 ---
 
-# Confidential container Samples
+# Confidential container samples
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
@@ -40,11 +40,11 @@ For container samples that are programmed to run in the enclaves (enclave aware 
 
 This repo is organized by folders that states the sample name followed by the enablers of confidential containers. A typical folder name follows this standard < samplename >-< enabername > :
 
-### Confidential Healthcare Application with Intel SGX based confidential containers
+### Confidential Healthcare Application on Intel SGX based confidential containers
 
 [Confidential HealthCare Implementation with Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md) 
 
-### Confidential Big Data Analytics with Apache Spark and Azure SQL Always Encrypted with secured enclaves with Intel SGX based confidential containers
+### Confidential Big Data Analytics with Apache Spark and Azure SQL Always Encrypted secured enclaves on Intel SGX based confidential containers
 
 [Confidential Big Data Analytics with Apache Spark on SGX-enabled Containers using Scone](confidential-big-data-spark/README.md)
 
