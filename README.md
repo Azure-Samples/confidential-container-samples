@@ -13,7 +13,7 @@ description: "Confidential containers on AKS samples"
 urlFragment: confidential-containers-samples
 ---
 
-# Confidential Container Samples
+# Confidential container Samples
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
