@@ -6,11 +6,11 @@ This repository demonstrates an architecture pattern for **Confidential Big Data
 
 Confidential data analytics in this context is meant to imply: **_"run analytics on PII data with peace of mind against data exfiltration"_** - this includes potential `root`-level access breach both internally (rogue Cluster Admin) or externally (system compromise).
 
-Confidential data analytics helps meet your high security and confidentiality needs by removing the untrusted parties from computation like cloud operator, service/guest admins. This execution helps meet your data compliance needs using state-of-the-art hardware.
+Confidential data analytics helps meet your high security zero trust deployment architecture with confidential computing assurances by removing the untrusted parties from computation like cloud operator, service/guest admins, other containers in the same VM node etc. This execution helps meet your data compliance needs using state-of-the-art hardware.
 
 ### Goal
 
-Demonstrate how to run **end-to-end Confidential Data Analytics** on Azure (presumably on PII/trade sensistive data), leveraging [Azure SQL Always Encrypted with Secure Enclaves](https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15) as the database, and containerized **Apache Spark** on [Intel SGX-enabled Azure machines](https://docs.microsoft.com/en-us/azure/confidential-computing/confidential-computing-enclaves) for analytics workloads.
+Demonstrate how to run **end-to-end Confidential Data Analytics** on Azure (presumably on PII/trade sensitive data), leveraging [Azure SQL Always Encrypted with Secure Enclaves](https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15) as the database, and containerized **Apache Spark** on [Intel SGX-enabled Azure machines](https://docs.microsoft.com/en-us/azure/confidential-computing/confidential-computing-enclaves) running as confidential containers for analytics workloads.
 
 ### Key points
 
@@ -24,21 +24,23 @@ Demonstrate how to run **end-to-end Confidential Data Analytics** on Azure (pres
 
 In this scenario, we leverage Spark with Scone on a [Confidential Capable AKS cluster](https://docs.microsoft.com/en-us/azure/confidential-computing/confidential-nodes-aks-get-started) to showcase a sample pattern for processing larger datasets in a distributed fashion, as well as showcasing confidential analytics on relational Database Engines storing confidential data.
 
-> As a pre-requsite to this scenario, an Azure SQL Database with Always Encrypted with secure enclaves is required. Please follow the detailed steps outlined in this [`sql-server-samples` repository](https://github.com/microsoft/sql-server-samples/blob/master/samples/features/security/always-encrypted-with-secure-enclaves/azure-sql-database/README.md) to deploy the `ContosoHR` Database. We will not be using the App Service web app that is included in this scenario.
+> As a pre-requisite to this scenario, an Azure SQL Database with Always Encrypted with secure enclaves is required. Please follow the detailed steps outlined in this [`sql-server-samples` repository](https://github.com/microsoft/sql-server-samples/blob/master/samples/features/security/always-encrypted-with-secure-enclaves/azure-sql-database/README.md) to deploy the `ContosoHR` Database. 
 
 Our Spark application will process 2 sample datasets from 2 data sources:
-1. [Azure Data Lake Storage - Parquet files](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction): We use is the common [NYC Taxi](https://docs.microsoft.com/en-us/azure/open-datasets/dataset-taxi-yellow?tabs=pyspark) Dataset - where we demonstrate a simple Spark Job ([`COUNT *`](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.count.html)) on 1.5 Billion Rows of Parquet files (50 GB) stored on Azure Data Lake Storage. The purpose here is to show the horizontal scalability (multiple-pods perform a single job) enabled through this architecture.
-2. [Azure SQL DB - Always Encrypted with secure enclaves](https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15): We showcase how to access Always Encrypted data (Encrypted [`ContosoHR` Database](https://github.com/microsoft/sql-server-samples/blob/master/samples/features/security/always-encrypted-with-secure-enclaves/azure-sql-database/README.md#demos-steps-1) from this sample) as plaintext inside the Spark Container Enclave.
+1. [Azure Data Lake Storage - Parquet files](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction): It is a publicly available common [NYC Taxi](https://docs.microsoft.com/en-us/azure/open-datasets/dataset-taxi-yellow?tabs=pyspark) Dataset - where we demonstrate a simple Spark Job ([`COUNT *`](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.count.html)) on 1.5 Billion Rows of Parquet files (50 GB) stored on Azure Data Lake Storage. The purpose here is to show the horizontal scalability (multiple-pods perform a single job) enabled through this architecture.
+2. [Azure SQL DB - Always Encrypted with secure enclaves](https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15): We showcase how to access Always Encrypted data (Encrypted [`ContosoHR` Database](https://github.com/microsoft/sql-server-samples/blob/master/samples/features/security/always-encrypted-with-secure-enclaves/azure-sql-database/README.md#demos-steps-1) from this sample) as plaintext inside the Spark Container Enclave. This service extends confidentiality from compute infrastructure to Azure PaaS service to achieve end to end solution confidentiality.
 
-> Azure Confidential Enclave VM's [DCsv3 and DCdsv3](https://docs.microsoft.com/en-us/azure/virtual-machines/dcv3-series) is in public preview and offers large EPC memeory sizes to help run memory intensive applications like analytics.
+> Azure Confidential Enclave VM's [DCsv3 and DCdsv3](https://docs.microsoft.com/en-us/azure/virtual-machines/dcv3-series) is in public preview and offers large EPC memory sizes to help run memory intensive applications like analytics.
 
 ![Scenario 3](images/Scenario.png)
 
 The tasks are divided among the available executors (user configurable), which allows for horizontal scalability. The executors are written in Python and have their source code encrypted by the Scone filesystem protection features we've already discussed.
 
+> 💡 This solution can be extended to on-prem sensitive data encrypted and then uploaded to Azure DataLake storage and have the data decryption keys securely stored in AKV mHSM and then delivered to confidential container (Apache Spark) through AKV mHSM. This extension will help keep the data protected with a 3-legged stool approach keeping the data safe during rest, transit, and in-use to help meet end to end confidentiality needs.
+
 ### A note about EPC Memory Size
 
-The same protection guarantees as the previous scenarios apply here too. Kubernetes admins, or any privileged user, cannot inspect the in-memory contents or source code of driver or executors. EPC is specialized memory partition in an Azure Confidential Enclaves VM that Enclaves or Confidential containers use. These VM's also come with regular memory (un-encrypted) memory to run non-enclave apps. As part of this sample we did performance [benchmarking](#benchmark) and did not see any noticeable performance drops).
+The same protection guarantees as the previous scenarios apply here too. Kubernetes admins, or any privileged user, cannot inspect the in-memory contents or source code of driver or executors. EPC is specialized memory partition in an Azure Confidential Enclaves VM that Enclaves or Confidential containers use. These VM's also come with regular memory (un-encrypted) memory to run non-enclave apps. As part of this sample, we did performance [benchmarking](#benchmark) and did not see any noticeable performance drops).
 
 ### Running with Remote Attestation
 
@@ -62,7 +64,7 @@ For this scenario, we use a [Public CAS](https://sconedocs.github.io/public-CAS/
  - Cryptographic Operations: `Unwrap Key`, `Wrap Key`, `Verify`, `Sign`
 
 **Azure Infrastructure deployment - PowerShell:**
-> 💡 If required - the script below can be run in a linux environment with minor syntax changes
+> 💡 If required - the script below can be run in a Linux environment with minor syntax changes
 
 The following script deploys an AKS Cluster with Confidential Nodepools:
 ```powershell
@@ -72,13 +74,13 @@ $rg = "your--rg--name"
 $k8s = "your--aks--name"
 
 # Create RG
-az group create --name $rg --location EastUS
+az group create --name $rg --location eastus2
 
 # Create AKS cluster with System Node Pool
 az aks create -g $rg --name $k8s --node-count 1 --ssh-key-value 'ssh-rsa AAA...' --enable-addon confcom
 
 # Create Confidential Node Pool - 4 Confidential Nodes
-az aks nodepool add --cluster-name $k8s --name confcompool1 -g $rg --node-vm-size Standard_DC4s_v2 --node-count 4
+az aks nodepool add --cluster-name $k8s --name confcompool1 -g $rg --node-vm-size Standard_DC4s_v3 --node-count 4
 
 # Grab kubeconfig from AKS
 az aks get-credentials -g $rg --name $k8s
@@ -106,7 +108,7 @@ kubectl apply -f kubernetes/rbac.yaml
 docker login registry.scontain.com:5050 -u your--scone--gitlab--username -p your--scone--gitlab--password
 
 # Pull PySpark Container image to Docker
-docker pull registry.scontain.com:5050/clenimar/pyspark:5.6.0plus
+docker pull registry.scontain.com:5050/community/spark:5.6.0plus
 
 # Create ACR and login
 $acr = $k8s + "acr"
@@ -138,7 +140,7 @@ And a Confidential Node pool created:
 
 
 **Execute steps - bash**
-> ❗ The script below must run in a `bash` shell due to several dependencies on linux specific commands
+> ❗ The script below must run in a `bash` shell due to several dependencies on Linux specific commands
 
 The following script deploys the Spark job. Prior to running the bash commands - please replace the following placeholders `<...>` in the JDBC string for the `ContosoHR` database in [`policies\pyspark.hw.yaml.template`](policies\pyspark.hw.yaml.template)
 ```text
@@ -306,7 +308,7 @@ Scenarios:
 | :-: | - |
 | **Vanilla (Intel/no SGX)** | Baseline. The driver and the executors are in plain text and run on Intel CPUs without SGX support using vanilla PySpark images |
 | **Scone (AMD/simulated mode)** | The driver and the executors are encrypted and run on AMD CPUs. Scone simulates an SGX enclave by creating encrypted memory regions |
-| **Scone (Intel/hardware mode)** | The driver and the executors are encrypted and run on Intel CPUs with SGX support, benefitting from all hardware-backed security guarantees provided by Intel SGX and Scone |
+| **Scone (Intel SGX/hardware mode)** | The driver and the executors are encrypted and run on Intel CPUs with SGX support, benefitting from all hardware-backed security guarantees provided by Intel SGX and Scone |
 
 
 Clusters:
@@ -315,11 +317,11 @@ Clusters:
 | :-: | :-: | :-: | :-: | :-: | :-: |
 | **Vanilla (Intel/no SGX)** | Intel | [Standard_D4s_v4](https://docs.microsoft.com/en-us/azure/virtual-machines/dv4-dsv4-series) | 4 vCPUs; 16 GB | - | us-east |
  **Scone (AMD/simulated mode)** | AMD | [Standard_D4a_v4](https://docs.microsoft.com/en-us/azure/virtual-machines/dav4-dasv4-series#dav4-series) | 4 vCPUs; 16 GB | - | us-east |
-**Scone (Intel/hardware mode)** | Intel | [Standard_DC4ds_v3](https://docs.microsoft.com/en-us/azure/virtual-machines/dcv3-series) | 4 CPUs; 32 GB (this includes SGX EPC memory) | 16 GB | us-east2 |
+**Scone (Intel SGX/hardware mode)** | Intel | [Standard_DC4ds_v3](https://docs.microsoft.com/en-us/azure/virtual-machines/dcv3-series) | 4 CPUs; 32 GB (this includes SGX EPC memory) | 16 GB | us-east2 |
 
 
 - All scenarios run on AKS clusters.
-- The dataset is located in `us-east` region.
+- The dataset is in `us-east` region.
 - All Pods (driver or executor) have the same CPU and memory requests/limits in Kubernetes.
 - We run one executor per cluster node.
 - The results below are the mean of each configuration. We use a repetition factor of 3.
