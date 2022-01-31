@@ -10,27 +10,27 @@ Confidential data analytics helps meet your high security zero trust deployment 
 
 ### Goal
 
-Demonstrate how to run **end-to-end Confidential Data Analytics** on Azure (presumably on PII/trade sensitive data), leveraging [Azure SQL Always Encrypted with Secure Enclaves](https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15) as the database, and containerized **Apache Spark** on [Intel SGX-enabled Azure machines](https://docs.microsoft.com/en-us/azure/confidential-computing/confidential-computing-enclaves) running as confidential containers for analytics workloads.
+Demonstrate how to run **end-to-end Confidential Data Analytics** on Azure (presumably on PII/trade sensitive data), leveraging [Azure SQL Always Encrypted with Secure Enclaves](https://docs.microsoft.com/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15) as the database, and containerized **Apache Spark** on [Intel SGX-enabled Azure machines](https://docs.microsoft.com/azure/confidential-computing/confidential-computing-enclaves) running as confidential containers for analytics workloads.
 
 ### Key points
 
-- **Azure DC Series**: We run a containerized [Spark 3.1.1](https://spark.apache.org/releases/spark-release-3-1-1.html) application, on [AKS running DC4s_v3 nodes](https://docs.microsoft.com/en-us/azure/confidential-computing/confidential-computing-enclaves). These machines are backed by the latest generation of Intel XEON Scalable Processor with large Encrypted Page Cache (EPC) memory sizes. These Azure Virtual Machines include the [Intel SGX extensions](https://software.intel.com/content/www/us/en/develop/topics/software-guard-extensions.html) - the **_key component_** to enabling the core message of this demo.
-- **SCONE**: To run Spark inside an Intel SGX enclave - we leverage [SCONE](https://docs.microsoft.com/en-us/azure/confidential-computing/confidential-containers#scone-scontain), who have essentially taken the [Open Source Spark code](https://sconedocs.github.io/sconeapps_spark/), and wrapped it with their enclave runtime so that Spark can run inside SGX enclaves (a task that requires deep knowledge of the SGX ecosystem - something SCONE is an expert at).
-> 💡 Please note that SCONE (Scontain UG) is an Azure partner in confidential computing space who enables easy support to existing docker containers on Intel SGX Enclaves. You can also choose from other OSS and partners from [here](https://docs.microsoft.com/en-us/azure/confidential-computing/confidential-containers).
+- **Azure DC Series**: We run a containerized [Spark 3.1.1](https://spark.apache.org/releases/spark-release-3-1-1.html) application, on [AKS running DC4s_v3 nodes](https://docs.microsoft.com/azure/confidential-computing/confidential-nodes-aks-overview). These machines are backed by the latest generation of Intel XEON Scalable Processor with large Encrypted Page Cache (EPC) memory sizes. These Azure Virtual Machines include the [Intel SGX extensions](https://software.intel.com/content/www/us/en/develop/topics/software-guard-extensions.html) - the **_key component_** to enabling the core message of this demo.
+- **SCONE**: To run Spark inside an Intel SGX enclave - we leverage [SCONE](https://docs.microsoft.com/azure/confidential-computing/confidential-containers#scone-scontain), who have essentially taken the [Open Source Spark code](https://sconedocs.github.io/sconeapps_spark/), and wrapped it with their enclave runtime so that Spark can run inside SGX enclaves (a task that requires deep knowledge of the SGX ecosystem - something SCONE is an expert at).
+> 💡 Please note that SCONE (Scontain UG) is an Azure partner in confidential computing space who enables easy support to existing docker containers on Intel SGX Enclaves. You can also choose from other OSS and partners from [here](https://docs.microsoft.com/azure/confidential-computing/confidential-containers).
 
    - **Sconedocs**: Scone's official documentation for Azure integration and getting started: [link](https://sconedocs.github.io/aks/)
 
 ### Scenario
 
-In this scenario, we leverage Spark with Scone on a [Confidential Capable AKS cluster](https://docs.microsoft.com/en-us/azure/confidential-computing/confidential-nodes-aks-get-started) to showcase a sample pattern for processing larger datasets in a distributed fashion, as well as showcasing confidential analytics on relational Database Engines storing confidential data.
+In this scenario, we leverage Spark with Scone on a [Confidential Capable AKS cluster](https://docs.microsoft.com/azure/confidential-computing/confidential-nodes-aks-get-started) to showcase a sample pattern for processing larger datasets in a distributed fashion, as well as showcasing confidential analytics on relational Database Engines storing confidential data.
 
 > As a pre-requisite to this scenario, an Azure SQL Database with Always Encrypted with secure enclaves is required. Please follow the detailed steps outlined in this [`sql-server-samples` repository](https://github.com/microsoft/sql-server-samples/blob/master/samples/features/security/always-encrypted-with-secure-enclaves/azure-sql-database/README.md) to deploy the `ContosoHR` Database. 
 
 Our Spark application will process 2 sample datasets from 2 data sources:
-1. [Azure Data Lake Storage - Parquet files](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction): It is a publicly available common [NYC Taxi](https://docs.microsoft.com/en-us/azure/open-datasets/dataset-taxi-yellow?tabs=pyspark) Dataset - where we demonstrate a simple Spark Job ([`COUNT *`](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.count.html)) on 1.5 Billion Rows of Parquet files (50 GB) stored on Azure Data Lake Storage. The purpose here is to show the horizontal scalability (multiple-pods perform a single job) enabled through this architecture.
-2. [Azure SQL DB - Always Encrypted with secure enclaves](https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15): We showcase how to access Always Encrypted data (Encrypted [`ContosoHR` Database](https://github.com/microsoft/sql-server-samples/blob/master/samples/features/security/always-encrypted-with-secure-enclaves/azure-sql-database/README.md#demos-steps-1) from this sample) as plaintext inside the Spark Container Enclave. This service extends confidentiality from compute infrastructure to Azure PaaS service to achieve end to end solution confidentiality.
+1. [Azure Data Lake Storage - Parquet files](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction): It is a publicly available common [NYC Taxi](https://docs.microsoft.com/azure/open-datasets/dataset-taxi-yellow?tabs=pyspark) Dataset - where we demonstrate a simple Spark Job ([`COUNT *`](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.count.html)) on 1.5 Billion Rows of Parquet files (50 GB) stored on Azure Data Lake Storage. The purpose here is to show the horizontal scalability (multiple-pods perform a single job) enabled through this architecture.
+2. [Azure SQL DB - Always Encrypted with secure enclaves](https://docs.microsoft.com/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15): We showcase how to access Always Encrypted data (Encrypted [`ContosoHR` Database](https://github.com/microsoft/sql-server-samples/blob/master/samples/features/security/always-encrypted-with-secure-enclaves/azure-sql-database/README.md#demos-steps-1) from this sample) as plaintext inside the Spark Container Enclave. This service extends confidentiality from compute infrastructure to Azure PaaS service to achieve end to end solution confidentiality.
 
-> Azure Confidential Enclave VM's [DCsv3 and DCdsv3](https://docs.microsoft.com/en-us/azure/virtual-machines/dcv3-series) is in public preview and offers large EPC memory sizes to help run memory intensive applications like analytics.
+> Azure Confidential Enclave VM's [DCsv3 and DCdsv3](https://docs.microsoft.com/azure/virtual-machines/dcv3-series) is in public preview and offers large EPC memory sizes to help run memory intensive applications like analytics.
 
 ![Scenario 3](images/Scenario.png)
 
@@ -59,7 +59,7 @@ For this scenario, we use a [Public CAS](https://sconedocs.github.io/public-CAS/
 2. [Docker Desktop](https://docs.docker.com/desktop/windows/wsl/#download)
    1. If running a Windows machine, you will require a Linux environment to run some of the deployment scripts - you can download an [Ubuntu 18.04 LTS](https://www.microsoft.com/en-us/p/ubuntu-1804-lts/9n9tngvndl3q) machine from the Microsoft Store, then [enable WSL integration](https://docs.docker.com/desktop/windows/wsl/#install) with Docker Desktop to access [`docker`](https://docs.docker.com/engine/reference/commandline/cli/) CLI commands _inside_ the WSL runtime.
 3. Get access to the PySpark base image used in this demo from Scone's [Gitlab](gitlab.scontain.com) Container Registry: `registry.scontain.com:5050/community/spark:5.6.0plus` - see [instructions here for Gitlab access](https://sconedocs.github.io/SCONE_Curated_Images/).
-4. Deploy the `ContosoHR` demo database outlined [in this sample](https://github.com/microsoft/sql-server-samples/blob/master/samples/features/security/always-encrypted-with-secure-enclaves/azure-sql-database/README.md) and configure a Service Principal to have the following *Key Permissions* on the Key Vault storing the [CMK](https://docs.microsoft.com/en-us/azure/azure-sql/database/always-encrypted-azure-key-vault-configure?tabs=azure-powershell#master-key-configuration):
+4. Deploy the `ContosoHR` demo database outlined [in this sample](https://github.com/microsoft/sql-server-samples/blob/master/samples/features/security/always-encrypted-with-secure-enclaves/azure-sql-database/README.md) and configure a Service Principal to have the following *Key Permissions* on the Azure Key Vault mHSM storing the [CMK](https://docs.microsoft.com/en-us/azure/azure-sql/database/always-encrypted-azure-key-vault-configure?tabs=azure-powershell#master-key-configuration):
  - Key Management Operations: `Get`, `List`
  - Cryptographic Operations: `Unwrap Key`, `Wrap Key`, `Verify`, `Sign`
 
@@ -296,7 +296,7 @@ And we see the decrypted columns inside the enclave in Spark:
 
 ### Benchmark
 
-To assess performance of Spark with Scone, we compare Scone against a vanilla PySpark (e,g, a regular [Bitnami image](https://hub.docker.com/r/bitnami/spark/tags?page=1&ordering=last_updated) with no SGX support) image for the same aggregation on a large dataset stored in Azure Blob Storage. For our benchmark, we use the [NYC Taxi (Yellow)](https://docs.microsoft.com/en-us/azure/open-datasets/dataset-taxi-yellow) dataset, which has approximately 1.5 billion rows and 50 GB. The reader is encouraged to try this on even larger datasets - similar results should follow.
+To assess performance of Spark with Scone, we compare Scone against a vanilla PySpark (e,g, a regular [Bitnami image](https://hub.docker.com/r/bitnami/spark/tags?page=1&ordering=last_updated) with no SGX support) image for the same aggregation on a large dataset stored in Azure Blob Storage. For our benchmark, we use the [NYC Taxi (Yellow)](https://docs.microsoft.com/azure/open-datasets/dataset-taxi-yellow) dataset, which has approximately 1.5 billion rows and 50 GB. The reader is encouraged to try this on even larger datasets - similar results should follow.
 
 **Workload:**
 
@@ -315,9 +315,9 @@ Clusters:
 
 | Scenario | Cluster | Node size | Cores; RAM | SGX EPC memory | Region |
 | :-: | :-: | :-: | :-: | :-: | :-: |
-| **Vanilla (Intel/no SGX)** | Intel | [Standard_D4s_v4](https://docs.microsoft.com/en-us/azure/virtual-machines/dv4-dsv4-series) | 4 vCPUs; 16 GB | - | us-east |
- **Scone (AMD/simulated mode)** | AMD | [Standard_D4a_v4](https://docs.microsoft.com/en-us/azure/virtual-machines/dav4-dasv4-series#dav4-series) | 4 vCPUs; 16 GB | - | us-east |
-**Scone (Intel SGX/hardware mode)** | Intel | [Standard_DC4ds_v3](https://docs.microsoft.com/en-us/azure/virtual-machines/dcv3-series) | 4 CPUs; 32 GB (this includes SGX EPC memory) | 16 GB | us-east2 |
+| **Vanilla (Intel/no SGX)** | Intel | [Standard_D4s_v4](https://docs.microsoft.com/azure/virtual-machines/dv4-dsv4-series) | 4 vCPUs; 16 GB | - | us-east |
+ **Scone (AMD/simulated mode)** | AMD | [Standard_D4a_v4](https://docs.microsoft.com/azure/virtual-machines/dav4-dasv4-series#dav4-series) | 4 vCPUs; 16 GB | - | us-east |
+**Scone (Intel SGX/hardware mode)** | Intel | [Standard_DC4ds_v3](https://docs.microsoft.com/azure/virtual-machines/dcv3-series) | 4 CPUs; 32 GB (this includes SGX EPC memory) | 16 GB | us-east2 |
 
 
 - All scenarios run on AKS clusters.
@@ -330,7 +330,7 @@ Results:
 
 ![Scone PySpark on AKS](images/Scone-PySpark-on-AKS.png)
 
-The results show that Scone PySpark is able to run PySpark applications in a distributed fashion, being able to horizontally scale the workload across multiple Spark executors for a simple aggregation over a large dataset. Even though the aggregation itself is simple (`df.count()`), it shows that having a dataset much larger (50 GB) than the container memory limits (**10 GB**), enclave sizes (**1 GB** for Python processes and **4 GB** for Java processes) and SGX EPC memory (**16 GB** for [DC4ds_v3](https://docs.microsoft.com/en-us/azure/virtual-machines/dcv3-series)) is not a practical bottleneck. Furthermore, Scone scenarios have their driver/executor code encrypted.
+The results show that Scone PySpark is able to run PySpark applications in a distributed fashion, being able to horizontally scale the workload across multiple Spark executors for a simple aggregation over a large dataset. Even though the aggregation itself is simple (`df.count()`), it shows that having a dataset much larger (50 GB) than the container memory limits (**10 GB**), enclave sizes (**1 GB** for Python processes and **4 GB** for Java processes) and SGX EPC memory (**16 GB** for [DC4ds_v3](https://docs.microsoft.com/azure/virtual-machines/dcv3-series)) is not a practical bottleneck. Furthermore, Scone scenarios have their driver/executor code encrypted.
 
 It's also important to notice that the overhead in execution time observed for Scone scenarios (hardware mode or simulated mode) compared to Vanilla PySpark image corresponds to the **enclave startup process**. This process takes a fixed amount of time given an enclave size. Therefore, for applications that are more complex and take longer to complete, this overhead should correspond to a small fraction of the overall execution time.
 
