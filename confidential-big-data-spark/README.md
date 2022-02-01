@@ -147,7 +147,7 @@ The following script deploys the Spark job. Prior to running the bash commands -
 jdbc:sqlserver://<your-azure-sql-server>.database.windows.net:1433;database=ContosoHR;user=<your-sql-auth-username>@<your-azure-sql-server>;password=<your-sql-auth-password>;columnEncryptionSetting=enabled;enclaveAttestationUrl=https://<your-attestation-url>.eus.attest.azure.net/attest/SgxEnclave;enclaveAttestationProtocol=AAS;keyVaultProviderClientId=<your-sp-clientid>;keyVaultProviderClientKey=<your--sp--clientkey>;
 ```
 
-> In the script below - several places have instructions for [SCONE Simulation mode](https://sconedocs.github.io/firstcontainer/). However, since we have a confidential NodePool in AKS - we will not be needing this.
+> In the script below - several places have instructions for [SCONE Simulation mode](https://sconedocs.github.io/firstcontainer/). However, since we have a confidential NodePool in AKS - we will not be needing this. Simulation mode is only needed to test Scone in a non-confidential computing VM's.
 
 ```bash
 # Change to directory with this repo
