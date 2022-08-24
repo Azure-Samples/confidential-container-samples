@@ -1,0 +1,31 @@
+FROM ubuntu:focal
+EXPOSE 8081
+
+WORKDIR /dev
+ADD . /dev
+
+#RUN cd dev
+
+RUN apt-get update
+
+RUN apt-get -y install build-essential libcurl4-openssl-dev libjsoncpp-dev cmake make
+
+RUN curl -k -O -L "https://packages.microsoft.com/repos/azurecore/pool/main/a/azguestattestation1/azguestattestation1_1.0.2_amd64.deb"
+
+RUN dpkg -i ./azguestattestation1_1.0.2_amd64.deb
+
+RUN cmake . && make
+
+#Build Python Here
+# Install pip requirements
+ADD requirements.txt .
+RUN python -m pip install -r requirements.txt
+
+
+# Install pip requirements
+#ADD requirements.txt .
+#RUN python -m pip install -r requirements.txt
+
+
+# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+CMD ["sudo", "python3", "app.py"]
