@@ -15,6 +15,7 @@ RUN curl -k -O -L "https://packages.microsoft.com/repos/azurecore/pool/main/a/az
 RUN dpkg -i ./azguestattestation1_1.0.2_amd64.deb
 
 RUN cmake . && make
+COPY * /dev
 
 #Build Python Here
 # Install pip requirements
