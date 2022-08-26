@@ -27,7 +27,7 @@ public:
         std::vsnprintf(&str[0], len + 1, fmt, args);
         va_end(args);
 
-        printf("Level: %s Tag: %s %s:%d:%s\n", attest::AttestationLogger::LogLevelStrings[level].c_str(), log_tag, function, line, &str[0]);
+        //printf("Level: %s Tag: %s %s:%d:%s\n", attest::AttestationLogger::LogLevelStrings[level].c_str(), log_tag, function, line, &str[0]);
     }
 };
 
@@ -36,7 +36,7 @@ std::string attestation_url = "https://sharedeus2.eus2.attest.azure.net";
 
 int main() {
     try {
-        printf("Initiating Guest Attestation\n");
+        //printf("Initiating Guest Attestation\n");
         AttestationClient* attestation_client = nullptr;
         Logger* log_handle = new Logger();
 
@@ -59,14 +59,14 @@ int main() {
 
         // make attestation call
         if ((result = attestation_client->Attest(params, &jwt)).code_ != attest::AttestationResult::ErrorCode::SUCCESS) {
-            printf("Attestation call failed with following error code: %d and description: %s\n", (int)result.code_, result.description_.c_str());
+           // printf("Attestation call failed with following error code: %d and description: %s\n", (int)result.code_, result.description_.c_str());
             Uninitialize();
             exit(1);
         }
 
         std::string jwt_str = reinterpret_cast<char*>(jwt);
-        printf("Guest attestation passed successfully!! Printing the attestation token in next line....\n");
-        printf("%s\n", jwt_str.c_str());
+        //printf("Guest attestation passed successfully!! Printing the attestation token in next line....\n");
+        printf("%s", jwt_str.c_str());
         //printf("%s\n", base64_decode(jwt.c_str()));
         attestation_client->Free(jwt);
 
