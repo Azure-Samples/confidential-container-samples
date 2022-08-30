@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: attestation
+  labels:
+    app: attestation
+spec:
+  containers:
+  - image: lizzhaacr.azurecr.io/attestation-client:latest
+    imagePullPolicy: IfNotPresent
+    name: attestation-client
+    volumeMounts:
+      - mountPath: /sys/kernel/security
+        name: tcg
+      - mountPath: /dev/tpmrm0
+        name: tpmrm0
+    securityContext:
+      privileged: true
+  volumes:
+    - name: tcg
+      hostPath:
+        path: /sys/kernel/security
+    - name: tpmrm0
+      hostPath:
+        path: /dev/tpmrm0
+  restartPolicy: Always

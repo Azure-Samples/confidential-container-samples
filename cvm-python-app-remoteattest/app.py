@@ -23,25 +23,16 @@ class MyServer(BaseHTTPRequestHandler):
                         "projectId": "bigqueryproject"
                     }
                 }
-        #self.wfile.write(json.dumps({"kind": "bigquery#datasetList", "datasets": [sample_dataset]}).encode("utf-8"))
-        #self.wfile.write(bytes("<html><head><title>CVM Attestation Report</title></head>", "utf-8"))
-        #self.wfile.write(bytes("<p>Request: %s</p>" % self.path, "utf-8"))
-        #self.wfile.write(bytes("<body>", "utf-8"))
-        # run the CMD here and return the details
-        #child = subprocess.Popen(['ls','-l'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        #child = os.popen('sudo', './AttestationClient')
-        #child = poppen('sudo', './AttestationClient');
-        #self.wfile.write(bytes("<p>This is an example web server from Amar Gowda</p>", "utf-8"))
+   
         p = subprocess.Popen(['./AttestationClient'], shell=True,
                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                              close_fds=True)
-        #print(p.stdout.read())
+        
         g = str(p.stdout.read())
         #g= base64.b64
         g = g.replace("b'","")
         g = g.replace("'","")
-        #print(g)
-        #res = g.split(".", 1)[1]
+        
         res = g.split(".")
         l = len(res) 
         if  l == 3:
@@ -50,20 +41,9 @@ class MyServer(BaseHTTPRequestHandler):
             decoded = jwt.decode(g, options={"verify_signature": False})
             print (decoded)
             self.wfile.write(json.dumps(decoded).encode("utf-8"))
-
-            #j = str(decoded, "utf-8")
-           # self.wfile.write(bytearray(decoded, "utf-8"))
         else:
             self.wfile.write(json.dumps({"error": "JWT was not formed properly"}).encode("utf-8"))
-        #print(res)
-        #work on decode logic here
-
-        #decodedBytes =  base64.urlsafe_b64decode(res)
-        #decodedStr = str(decodedBytes, "utf-8")
-        #print(decodedStr)
-
-        
-        #self.wfile.write(bytes("</body></html>", "utf-8"))
+     
 
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)

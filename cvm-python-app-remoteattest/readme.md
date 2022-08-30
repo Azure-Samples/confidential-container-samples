@@ -25,13 +25,22 @@ A screenshot of webAPI GET request after successful attestation flow
 
 You can view a sample output of this WEB API GET method [here](outputjsonsample.json)
 
-## Deployment Details
+## Deploy and run on CVM
 
-Build an image using Docker build or run python application with "sudo python3 app.py"
-Install Docker engine on CVM
-Do Docker Run
-Expose port 8081 from CVM
+* Run python application directly with "sudo python3 app.py"
+* Expose port 8081 from CVM to access from public IP
 
-## Extension
+## Deploy and run on AKS with Confidential VM agent node pools
+
+NOTE: You can perform this build container and push to registry from your local dev workstation. Make sure to have docker engine installed
+
+* Build a container using the Dockerfile in this repo by navigating to this repo and running "docker build ."
+* Tag and push the container to your container registry
+* Use this reference deployment yaml file to mount the required volumes from TPM device. This is a must for fetching an attestation report
+* At this time attestation client requires you to run this container on AKS as privileged=true
+
+[Refer this sample deployment yaml file for more details](/cvm-python-app-remoteattest/k8sdeploy.yaml). 
+
+## Further extension of sample
 
 This WEB API can be embedded in the overall application flow that brings in the attest and then exchange secrets or perform data computation.

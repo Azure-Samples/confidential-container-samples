@@ -25,8 +25,6 @@ RUN dpkg -i azguestattestation1_1.0.2_amd64.deb
 
 RUN cmake . && make
 
-VOLUME /sys/kernel/security/tpm0/binary_bios_measurements
-
 RUN apt install -y python3 python3-pip
 
 #Build Python Here
