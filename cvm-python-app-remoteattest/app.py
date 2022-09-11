@@ -16,20 +16,13 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-type", "application/json")
         self.end_headers()
-        sample_dataset = {
-                    "id": "bigqueryproject:datasetname",
-                    "datasetReference": {
-                        "datasetId": "datasetname",
-                        "projectId": "bigqueryproject"
-                    }
-                }
-   
+           
         p = subprocess.Popen(['./AttestationClient'], shell=True,
                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                              close_fds=True)
         
         g = str(p.stdout.read())
-        #g= base64.b64
+      
         g = g.replace("b'","")
         g = g.replace("'","")
         
@@ -42,7 +35,7 @@ class MyServer(BaseHTTPRequestHandler):
             print (decoded)
             self.wfile.write(json.dumps(decoded).encode("utf-8"))
         else:
-            self.wfile.write(json.dumps({"error": "JWT was not formed properly"}).encode("utf-8"))
+            self.wfile.write(json.dumps({"error": "JWT was not formed properly %s"}, g).encode("utf-8"))
      
 
 if __name__ == "__main__":        

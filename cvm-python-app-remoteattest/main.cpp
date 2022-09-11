@@ -59,7 +59,7 @@ int main() {
 
         // make attestation call
         if ((result = attestation_client->Attest(params, &jwt)).code_ != attest::AttestationResult::ErrorCode::SUCCESS) {
-           // printf("Attestation call failed with following error code: %d and description: %s\n", (int)result.code_, result.description_.c_str());
+           printf("Attestation call failed with following error code: %d and description: %s\n", (int)result.code_, result.description_.c_str());
             Uninitialize();
             exit(1);
         }
