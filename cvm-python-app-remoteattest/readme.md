@@ -1,4 +1,4 @@
-# CVM Remote Attestation Web API Helper Application
+# Confidential VM (AMD SEV-SNP) Remote Attestation Web API Helper Application
 
 This solution is to be deployed on a [Azure Confidential VM's DCav5/Ecav5](https://docs.microsoft.com/en-us/azure/confidential-computing/confidential-vm-overview) and will run a Python web Server that leverages a [CVM attestation client](https://github.com/Azure/confidential-computing-cvm-guest-attestation) to do the below:
 
@@ -51,7 +51,6 @@ On the AKS cluster deploy the container using this command
 
 ```azurecli
 kubectl apply -f "k8sdeploy.yaml"
-
 ```
 [Refer this sample deployment yaml file for more details](/cvm-python-app-remoteattest/k8sdeploy.yaml).
 
