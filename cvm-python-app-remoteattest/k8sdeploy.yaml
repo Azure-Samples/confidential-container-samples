@@ -40,7 +40,7 @@
             - name: tpmrm0
               hostPath:
                 path: /dev/tpmrm0
-        restartPolicy: Always
+        restartPolicy: Never
 - apiVersion: v1
   kind: Service
   metadata:
