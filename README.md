@@ -48,6 +48,10 @@ This repo is organized by folders that states the sample name followed by the en
 
 [Confidential Big Data Analytics with Apache Spark on SGX-enabled Containers using Scone](confidential-big-data-spark/README.md)
 
+### Remote attestation Web API Helper for Confidential VM's (AMD SEV-SNP) on AKS
+
+[Confidential VM (AMD SEV-SNP) Remote Attestation Web API Helper Sample](cvm-python-app-remoteattest/README.md)
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a

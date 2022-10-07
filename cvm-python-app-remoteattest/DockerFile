@@ -1,0 +1,37 @@
+FROM ubuntu:20.04
+EXPOSE 8081
+
+RUN mkdir /app
+WORKDIR /app
+COPY * /app/
+
+RUN apt-get update
+
+RUN apt-get -y install build-essential
+
+RUN apt-get -y install libcurl4-openssl-dev
+
+RUN apt-get -y install libjsoncpp-dev
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
+
+RUN apt-get -y install cmake make
+
+RUN apt-get -y install curl
+
+RUN curl -o azguestattestation1_1.0.2_amd64.deb "https://packages.microsoft.com/repos/azurecore/pool/main/a/azguestattestation1/azguestattestation1_1.0.2_amd64.deb"
+
+RUN dpkg -i azguestattestation1_1.0.2_amd64.deb
+
+RUN cmake . && make
+
+RUN apt install -y python3 python3-pip
+
+#Build Python Here
+# Install pip requirements
+ADD requirements.txt .
+RUN python3 -m pip install -r requirements.txt
+
+
+# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+CMD ["python3", "app.py"]
