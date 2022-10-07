@@ -42,15 +42,19 @@ This repo is organized by folders that states the sample name followed by the en
 
 ### Confidential Healthcare Application on Intel SGX based confidential containers
 
-[Confidential HealthCare Implementation with Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md) 
+[Confidential HealthCare Implementation with Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md)
 
 ### Confidential Big Data Analytics with Apache Spark and Azure SQL Always Encrypted secured enclaves on Intel SGX based confidential containers
 
 [Confidential Big Data Analytics with Apache Spark on SGX-enabled Containers using Scone](confidential-big-data-spark/README.md)
 
+### Apache Spark applications with BigDL PPML and Occlum on Azure Intel SGX enabled Confidential Virtual machines on AKS
+
+[Apache Spark sample with NY Taxi data sample data processing from with containers using open source software Occlum](confidential-bigdl-spark/README.md)
+
 ### Remote attestation Web API Helper for Confidential VM's (AMD SEV-SNP) on AKS
 
-[Confidential VM (AMD SEV-SNP) Remote Attestation Web API Helper Sample](cvm-python-app-remoteattest/README.md)
+[Confidential VM (AMD SEV-SNP) Remote Attestation Web API Helper Sample](cvm-python-app-remoteattest/readme.md)
 
 ## Contributing
 
