@@ -18,9 +18,7 @@ urlFragment: confidential-containers-samples
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
-Confidential containers are a set of capabilities that allow standard containers (Linux or Windows) to run in a hardware root of trusted established environment. Confidential containers refer to a set of capabilities that achieves the principles of confidential computing.
-
-[Read more here](http://aka.ms/confidentialcontainers)
+Confidential containers are a set of capabilities that allow standard containers (Linux or Windows) to run in a hardware root of trusted established environment. Confidential containers refer to a set of capabilities that achieves the principles of confidential computing. [Read more about confidential containers here](http://aka.ms/confidentialcontainers)
 
 **Important:** This repo is aggregated samples based on real world customer scenarios based and may involve Azure Partner Solution or an Open Source Project for its implementation. All implementations in this repo will host Azure Kubernetes Service (AKS) based deployments. Please review the sample repo for pre-requisites to deploy and run this application.
 
