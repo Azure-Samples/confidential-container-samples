@@ -9,6 +9,7 @@ products:
 - azure-confidential-computing
 - azure-kubernetes-service
 - azure attestation-service
+- confidential-containers
 description: "Confidential containers on AKS samples"
 urlFragment: confidential-containers-samples
 ---
@@ -17,17 +18,9 @@ urlFragment: confidential-containers-samples
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
-Confidential containers are a set of capabilities that allow standard containers (Linux or Windows) to run in a hardware root of trusted established enviornment. Confidential containers refer to a set of capabilities that achieves the principles of confidential computing.
-
-The term “confidential containers” refers to docker application (new or existing) containers packaged with additional components if necessary to run on the hardware that provides strong protections of Confidential Computing to improve the overall security posture of the container application and the data-in-use.
-
-Confidential containers run in a hardware based Trusted Execution Environment often referred as an enclave. Containers running in an enclave allows establishing trust to an execution environment to perform any sensitive data processing. Confidential containers is the fastest path to achieve container confidentiality including code integrity, data confidentiality from cloud operator and data integrity. Confidential containers enable taking an existing unmodified docker containers and run in an enclave security.
+Confidential containers are a set of capabilities that allow standard containers (Linux or Windows) to run in a hardware root of trusted established environment. Confidential containers refer to a set of capabilities that achieves the principles of confidential computing.
 
 [Read more here](http://aka.ms/confidentialcontainers)
-
-Use this repository to develop a LUIS application while following DevOps engineering practices that adhere to software engineering fundamentals around source control, testing, CI/CD and release management. This template repository provides a working project structure and GitHub Actions pipelines that you can customize for use with your own project.
-
-For container samples that are programmed to run in the enclaves (enclave aware containers) please visit [this](https://github.com/azure-samples/confidential-computing) samples repo.
 
 **Important:** This repo is aggregated samples based on real world customer scenarios based and may involve Azure Partner Solution or an Open Source Project for its implementation. All implementations in this repo will host Azure Kubernetes Service (AKS) based deployments. Please review the sample repo for pre-requisites to deploy and run this application.
 
