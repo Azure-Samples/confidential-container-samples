@@ -18,7 +18,7 @@ spec:
         kubernetes.azure.com/security-type: ConfidentialVM
       containers:
       - name: azure-cvm-attest
-        image: nramar/cvmpythonattestapi:latest
+        image: mcr.microsoft.com/acc/samples/cvm-python-attestation:1.0
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /sys/kernel/security
