@@ -49,7 +49,7 @@ This repo is organized by folders that states the sample name followed by the en
 
 ### Confidential Azure Container Instances ( ACI )  demo with remote attestation
 
-[Confidential ACI demo](confidential-aci-demo/readme.md)
+[Confidential ACI demo](confidential-aci-demo/README.md)
 
 ## Contributing
 
