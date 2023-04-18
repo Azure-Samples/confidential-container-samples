@@ -11,7 +11,7 @@ The confidential containers on Azure Containers Instances walks you through the 
   
 ## Setup and prerequisites 
 
-The demo requires the following to be available on your machine. Please note that the confcom extension is currently only available for the windows platform 
+The demo requires the following to be available on your machine.
 
 * Jupyter notebook : https://jupyter.org/install
 * Azure CLI : https://learn.microsoft.com/en-us/cli/azure/install-azure-cli

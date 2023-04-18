@@ -47,6 +47,10 @@ This repo is organized by folders that states the sample name followed by the en
 
 [Confidential VM (AMD SEV-SNP) Remote Attestation Web API Helper Sample](cvm-python-app-remoteattest/readme.md)
 
+### Confidential Azure Container Instances ( ACI )  demo with remote attestation
+
+[Confidential ACI demo](confidential-aci-demo/readme.md)
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
