@@ -352,3 +352,6 @@ MigrationBackup/
 # SCONE container build directory
 confidential-big-data-spark/build/
 .vscode/settings.json
+
+# confidential-aci-demo
+confidential-aci-demo/.pynb_checkpoints/

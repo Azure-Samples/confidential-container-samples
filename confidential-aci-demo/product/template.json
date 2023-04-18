@@ -1,0 +1,77 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "containerGroupName": {
+      "defaultValue": "aci-demo-product",
+      "type": "String",
+      "metadata": {
+        "description": "confidential containers on ACI demo"
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2022-10-01-preview",
+      "name": "[parameters('containerGroupName')]",
+      "location": "westeurope",
+      "properties": {
+        "containers": [
+          {
+            "name": "skr-sidecar-container",
+            "properties": {
+              "command": [
+                "/skr.sh"
+              ],
+              "image": "mcr.microsoft.com/aci/skr:main_20230216.1",
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGB": 2
+                }
+              },
+              "ports": [
+                {
+                  "port": 80
+                }
+              ]
+            }
+          },
+          {
+            "name": "test-product",
+            "properties": {
+              "image": "docker.io/pawankhandavillims/cacidemo:latest",
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGB": 1
+                }
+              }
+            }
+          }
+        ],
+        "osType": "Linux",
+        "sku": "confidential",
+        "confidentialComputeProperties": {
+          "ccePolicy": ""
+        },
+        "ipAddress": {
+          "type": "Public",
+          "ports": [
+            {
+              "protocol": "tcp",
+              "port": 80
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "containerIPv4Address": {
+      "type": "String",
+      "value": "[reference(resourceId('Microsoft.ContainerInstance/containerGroups/', parameters('containerGroupName'))).ipAddress.ip]"
+    }
+  }
+}
