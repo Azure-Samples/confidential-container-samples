@@ -9,6 +9,15 @@ This simplified example uses the default policy, but you can investigate more ad
 
 At the time of writing, Confidential Containers on ACI is a Public Preview feature (https://azure.microsoft.com/en-us/updates/public-preview-confidential-containers-on-aci/)
 
+You will need..
+
+- An Azure subscription, if you don’t have one already you can create a free trial at https://azure.microsoft.com/free/
+- Azure CLI https://learn.microsoft.com/cli/azure or you can use Azure Cloud Shell https://learn.microsoft.com/azure/cloud-shell/overview
+- A Minecraft client https://minecraft.net/get-minecraft clients are available for a variety of PC, Mac(1) and mobile platforms, free trials are available.
+
+*(1)Note this example uses the Bedrock server which does not currently have a Mac client, if you want to try from a Mac you'll need the 'Java' server - see the Java docker container (https://github.com/itzg/docker-minecraft-server)*
+
+
 *Note: substitute values in angle-brackets to suit your environment*
 
 **Step 1:** Setup variables for the resource group and subscription
