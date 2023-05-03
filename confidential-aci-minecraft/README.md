@@ -5,6 +5,9 @@ This fun example illustrates how simple it is to take an existing, **unmodified*
 This will create a Minecraft Bedrock server on a confidential container using these artifacts based on this Github repo from Geoff Bourne "itzg" (https://github.com/itzg/docker-minecraft-bedrock-server)
 
 For more information on Azure Confidential Compute see (https://aka.ms/accdocs)
+This simplified example uses the default policy, but you can investigate more advanced policies here (https://github.com/Azure/azure-cli-extensions/blob/main/src/confcom/azext_confcom/README.md)
+
+At the time of writing, Confidential Containers on ACI is a Public Preview feature (https://azure.microsoft.com/en-us/updates/public-preview-confidential-containers-on-aci/)
 
 *Note: substitute values in angle-brackets to suit your environment*
 
@@ -43,3 +46,5 @@ Step 6: Run the 1. ARM template to create the Azure Key Vault (AKV) instance + 1
     az deployment group create --resource-group $demorg --template-file 2.MinecraftConfidentialBedrockCMK.json
 
 You can now connect to your minecraft server using a Minecraft client (get clients here https://www.minecraft.net/en-us/download) by adding a server using the FQDN of your container (e.g. YourDnsLabel.northeurope.azurecontainer.io)
+
+![test gif!](HowToConnect.gif)
