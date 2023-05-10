@@ -37,17 +37,35 @@ You will need..
     
     az ad sp show --id 6bb8e274-af5d-4df2-98a3-4fd78b4cafd9
 
+*Make a note of the "id" parameter that is returned by the command (you will need this for step 7)*
+
 **Step 5:** Edit the 1.MinecraftConfidential-CMKconfig.json file adjusting values in angle-brackets to suit your environment
 
-Step 6: Run the 1. ARM template to create the Azure Key Vault (AKV) instance + 1 x encryption key for Customer Managed Key and note the output for use in subsequent steps
+**Step 6:** Run the 1. ARM template to create the Azure Key Vault (AKV) instance + 1 x encryption key for Customer Managed Key and note the output for use in subsequent steps
     
     az deployment group create --resource-group $demorg --template-file 1.MinecraftConfidential-CMKconfig.json  
+
+*Hint: Make a note of the values returned by the az deployment command, for example: 
+ 
+          "keySize": 2048,
+          "keyUri": "https://YourKeyVaultName.vault.azure.net/keys/YourKeyName",
+          "keyUriWithVersion": "https://YourKeyVaultName.vault.azure.net/keys/YourKeyName/52cae0abaaec32538bcfd38939088630",
+          "kty": "RSA"
 
 **Step 7:** Give the ACI Service Principal access to the keyvault (so it can read the Customer Managed Key (CMK)) - the ID for the Service Principal is obtained by the az ad sp show command above !! ID will be different per tenant !!
 
     az keyvault set-policy --name "<YOUR KEYVAULT NAME>" --resource-group $demorg --object-id "<GUID OF YOUR ACI SP>" --key-permissions get unwrapKey
 
 **Step 8:** Edit the 2.MinecraftConfidentialBedrockCMK.json file to suit your environment, using values from the output of the previous commands to enter parameters noted in angle brackets <VALUE>
+
+*Hint: The Azure Key Vault properties in the ARM template should look like the following (with the values returned by step 6)
+
+keyVersion is the alphanumerical string at the end of keyUriWithVersion in step 6*
+
+    "encryptionProperties": {
+                    "vaultBaseUrl": "https://YourKeyVaultName.vault.azure.net",
+                    "keyName": "YourKeyName",
+                    "keyVersion": "52cae0abaaec32538bcfd38939088630"
 
 **Step 9:** Finally, create an Azure Container Instance using Confidential Compute using the ARM template you've built.
 
