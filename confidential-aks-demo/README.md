@@ -11,7 +11,7 @@ Pre-requisites
 - The curl command line HTTP query tool Link if your platform does not have a default install (https://curl.se/download.html)
 - JQ (https://stedolan.github.io/jq/download/) to make it easier to decode JSON responses on the command line
 - Helm for installing some simple container packages (https://helm.sh/docs/intro/install/)
- 
+
 **STEP1**<p>
 The demo uses several environment variables to simplify the build-out process as follows
 
