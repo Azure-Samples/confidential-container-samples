@@ -62,7 +62,7 @@ Now, you have a working AKS cluster with Confidential Worker nodes, it's time to
 
 **STEP 8**<p>
 
-Paste the following commands into a terminal to build the container and store it in your ACR instance (note: for Windows machines you'll need to adjust the '/' in paths to be '\' to match Windows conventions)
+Paste the following commands into a terminal to build the container and store it in your ACR instance (note: for Windows machines you'll need to adjust the '/' in paths to be '\\' to match Windows conventions)
 
     git clone https://github.com/Azure-Samples/confidential-container-samples.git  
     cd ./confidential-container-samples/cvm-python-app-remoteattest/
@@ -91,5 +91,5 @@ If you wait a couple of minutes you'll be able to access the default Wordpress s
 
 Use the following command to discover some other Helm charts to deploy
 
-   helm search repo -l azure-marketplace
+    helm search repo -l azure-marketplace
 
