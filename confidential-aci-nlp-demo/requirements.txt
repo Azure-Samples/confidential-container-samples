@@ -1,0 +1,7 @@
+streamlit
+sentencepiece
+torch
+nltk
+transformers
+bs4
+requests

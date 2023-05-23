@@ -1,0 +1,16 @@
+FROM ubuntu:20.04
+
+RUN sed -i 's/archive.ubuntu.com/us.archive.ubuntu.com/g' /etc/apt/sources.list
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt-get update && apt-get install -y --fix-missing python3.11 python3-pip
+RUN pip3 install --upgrade pip
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+ENTRYPOINT ["streamlit", "run", "build23accacidemo.py", "--server.port=8501", "--server.address=0.0.0.0"]
