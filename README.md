@@ -35,6 +35,10 @@ This repo is organized by folders that states the sample name followed by the en
 
 [Confidential HealthCare Implementation with Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md)
 
+### Confidential NLP Inferencing using ACI
+
+[Confidential NLP with OSS models on ACI](confidential-aci-nlp-demo)
+
 ### Confidential Big Data Analytics with Apache Spark and Azure SQL Always Encrypted secured enclaves on Intel SGX based confidential containers
 
 [Confidential Big Data Analytics with Apache Spark on SGX-enabled Containers using Scone](confidential-big-data-spark/README.md)
