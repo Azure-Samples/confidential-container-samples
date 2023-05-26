@@ -60,3 +60,9 @@ Before starting please create the following pre-requisites in your Azure portal 
 
 ## Next Steps
 For the rest of the steps, please refer to the blog [https://techcommunity.microsoft.com/t5/azure-confidential-computing/nlp-inferencing-on-confidential-azure-container-instance/ba-p/3827628] (Continue from the section titled `Demo Steps`) 
+
+### Optional
+
+If you instead want to run this without Confidential option (although it defeats the purpose of this repo), please run the following
+
+`az container create --resource-group <RG name> --name <Container name> --image <Your ACR image> --registry-login-server <ACR URl> --registry-username <> --registry-password <> --dns-name-label <DNS name> --ports <> --cpu <> --memory <> --location <>   --azure-file-volume-account-name  <Storage where the text file is> --azure-file-volume-account-key <>  --azure-file-volume-share-name <File Share name> --azure-file-volume-mount-path /mnt/remote/share`
