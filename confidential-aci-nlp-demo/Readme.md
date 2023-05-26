@@ -4,7 +4,7 @@ Thanks to the advancements in the area of natural language processing using mach
 
 In this blog I am going to show how to run basic NLP text summarization using T5 & BART in a python `streamlit.io` based app & run it as a container on Confidential ACI container group. Before we go there, here are some details about Azure Confidential Computing for the uninitiated. Azure already encrypts data at rest and in transit, and confidential computing helps protect data in use, including the cryptographic keys.  Azure confidential computing helps customers prevent unauthorized access to data in use, including from the cloud operator, by processing data in a hardware-based and attested Trusted Execution Environment (TEE). 
 
-![Multi party clean room using Confidential ACI](.\MPNLP.png)
+![Multi party clean room using Confidential ACI](MPNLP.png)
 
 
 Typically in an AI/ML scenario you are trying to protect the following from all other parties involved including the cloud provider.
