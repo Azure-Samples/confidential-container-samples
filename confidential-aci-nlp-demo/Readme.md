@@ -73,5 +73,3 @@ Although it defeats the purpose of this repo, if you instead want to run this wi
 
 `az login`  
 `az container create --resource-group <RG name> --name <Container name> --image <Your ACR image> --registry-login-server <ACR URl> --registry-username <> --registry-password <> --dns-name-label <DNS name> --ports <> --cpu <> --memory <> --location <>   --azure-file-volume-account-name  <Storage where the text file is> --azure-file-volume-account-key <>  --azure-file-volume-share-name <File Share name you created above> --azure-file-volume-mount-path /mnt/remote/share`
-
-`/mnt/remote/share` is a mount point on the container where the given python code will read the text to be summarized from.
