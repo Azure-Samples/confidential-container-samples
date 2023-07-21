@@ -51,6 +51,8 @@ def generate_summary():
             </style>
                 """, unsafe_allow_html=True)
         
+        placeholder.text("Please wait. Page loading...")
+
         text = "Confidential ACI Demo for Text Summarization"
         words = text.split()
         t = st.empty()
@@ -58,7 +60,7 @@ def generate_summary():
             t.markdown("### %s" % ' '.join(words[:i]))
             time.sleep(0.05)
         st.write("")
-
+        placeholder.text("Please wait. Page loading....")
         text = "This demo summarizes the text from a public page but the intent is \
                  to showcase a 2 party multi party scenario implemented using \
                  Azure Confidential Computing based ACI"
@@ -68,14 +70,14 @@ def generate_summary():
             t.markdown("%s" % ' '.join(words[:i]))
             time.sleep(0.05)
 
-       
+        placeholder.text("Please wait. Page loading.....")
         if platform.system() == 'Windows':
             with open('./ConfidentialFullText.txt', 'r') as f:
                 page_text = f.read()
         else:
             with open('/mnt/remote/share/ConfidentialFullText.txt', 'r') as f:
                 page_text = f.read()
- 
+        
         ## Code to ensure that the model is not downloaded every time the function is called
         model_name = 't5-small'
         if platform.system() == 'Windows':
@@ -83,11 +85,17 @@ def generate_summary():
         else:
             print("Home",os.environ['HOME'])
             model_dir = os.path.join(os.environ['HOME'], ".cache", "huggingface", "hub")
+        
         #model_dir = os.path.join(os.path.expanduser("~"), ".cache", "huggingface", "transformers")
+        
         print("Model Dir",model_dir)
 
+        placeholder.text("Please wait. Page loading......")
+        
         config_file = find_config_file(model_dir, model_name)
+        
         print("Config file",config_file)
+        
         if not os.path.exists(os.path.join(model_dir, "models--" + model_name)):
             print(f"Downloading {model_name} model...")
             model = T5ForConditionalGeneration.from_pretrained(model_name)
@@ -102,7 +110,7 @@ def generate_summary():
             print(f"{model_name} tokenizer already exists. Loading from cache...")
             tokenizer = T5Tokenizer.from_pretrained(os.path.dirname(config_file))
         ## End optimization code
-
+        placeholder.text("Please wait. Page loading......")
         device = torch.device('cpu')
 
         text = page_text
@@ -236,7 +244,7 @@ def generate_summary():
         placeholder.text("All Inferences completed.")
     except Exception as e:
     # Code to handle the exception
-        print(str(e))
+        placeholder.text((str(e)))
 
     
 if __name__ == "__main__":

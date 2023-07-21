@@ -2,13 +2,7 @@
 
 Thanks to the advancements in the area of natural language processing using machine learning techniques & highly successful new-age LLMs from OpenAI, Google & Microsoft - NLP based modeling & inferencing are one of the top areas of customer interest. These are being widely used in almost all Microsoft products & there is also a huge demand from our customers to utilize these techniques in their business apps. Similarly, there is a demand for privacy preserving infrastructure to run such apps. 
 
-In this blog I am going to show how to run basic NLP text summarization using T5 & BART in a python `streamlit.io` based app & run it as a container on Confidential ACI container group. Before we go there, here are some details about Azure Confidential Computing for the uninitiated. Azure already encrypts data at rest and in transit, and confidential computing helps protect data in use, including the cryptographic keys.  Azure confidential computing helps customers prevent unauthorized access to data in use, including from the cloud operator, by processing data in a hardware-based and attested Trusted Execution Environment (TEE).  
-A `multi party computing clean room` is a rather common business use case where multiple parties to safely share code, models & data to compute a shared (shareable to multiple/all parties) or 1-party output/result-set while they do not have to trust each other with the raw data and model/code being used.  
-`Example 1` - A bank mashing up its customer data with the retail consumer purchase profiles acquired from participating retail parties to generate offers for its customers.  
-`Example 2` - A healthcare pharmaceutical company bringing in health research data from multiple other participating pharmaceutical companies, containing PHI/PII into a clean room and creating highly effective models to for example create novel drugs for advanced diseases.  
-`Example 3` - A financial institution mashing up data from multiple banks to create an centralized ML model to prevent fraud by analyzing fraud patterns instead of only using its limited datasets.
-
-The code may be audited by a 3rd party or all the parties involved and can be measured as a part of code deployment. The goal of measuring is to ensure that no individual party is unilaterally able to modify it and inadvertently or intentionally make it less secure or cause any kind of data/code or IP compromise.
+In this blog I am going to show how to run basic NLP text summarization using T5 & BART in a python `streamlit.io` based app & run it as a container on Confidential ACI container group. Before we go there, here are some details about Azure Confidential Computing for the uninitiated. Azure already encrypts data at rest and in transit, and confidential computing helps protect data in use, including the cryptographic keys.  Azure confidential computing helps customers prevent unauthorized access to data in use, including from the cloud operator, by processing data in a hardware-based and attested Trusted Execution Environment (TEE). 
 
 ![Multi party clean room using Confidential ACI](MPNLP.png)
 
@@ -66,12 +60,3 @@ Before starting please create the following pre-requisites in your Azure portal 
 
 ## Next Steps
 For the rest of the steps, please refer to the blog [https://techcommunity.microsoft.com/t5/azure-confidential-computing/nlp-inferencing-on-confidential-azure-container-instance/ba-p/3827628] (Continue from the section titled `Demo Steps`) 
-
-#### (Optional) Non Confidential deployment to test this sample
-
-Although it defeats the purpose of this repo, if you instead want to run this without the Confidential option, please run the following at CLI prompt. Before running it, create a File Share in your storage account and upload the sample file `ConfidentialFullText.txt` included here into it.
-
-`az login`  
-`az container create --resource-group <RG name> --name <Container name> --image <Your ACR image> --registry-login-server <ACR URl> --registry-username <> --registry-password <> --dns-name-label <DNS name> --ports <> --cpu <> --memory <> --location <>   --azure-file-volume-account-name  <Storage where the text file is> --azure-file-volume-account-key <>  --azure-file-volume-share-name <File Share name you created above> --azure-file-volume-mount-path /mnt/remote/share`
-
-`/mnt/remote/share` is a mount point on the container where the given python code will read the text to be summarized from.
