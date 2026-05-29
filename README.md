@@ -14,6 +14,11 @@ description: "Confidential containers on AKS samples"
 urlFragment: confidential-containers-samples
 ---
 
+# DEPRECATION NOTICE
+
+This repository is being deprecated, but remains for the time-being to preserve legacy content, please see [our new, consolidated repository](https://github.com/Azure-Samples/confidential-computing) for more recent samples leveraging Azure Confidential Computing.
+
+
 # Confidential container samples
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
