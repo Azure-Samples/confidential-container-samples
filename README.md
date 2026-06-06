@@ -36,6 +36,14 @@ Confidential containers are a set of capabilities that allow standard containers
 
 This repo is organized by folders that states the sample name followed by the enablers of confidential containers. A typical folder name follows this standard < samplename >-< enabername > :
 
+### Remote attestation Web API Helper for Confidential VM's (AMD SEV-SNP) on AKS
+
+[Confidential VM (AMD SEV-SNP) Remote Attestation Web API Helper Sample](cvm-python-app-remoteattest/readme.md)
+
+### Confidential Azure Container Instances ( ACI )  demo with remote attestation
+
+[Confidential ACI demo](confidential-aci-demo/README.md)
+
 ### Confidential Healthcare Application on Intel SGX based confidential containers
 
 [Confidential HealthCare Implementation with Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md)
@@ -52,13 +60,6 @@ This repo is organized by folders that states the sample name followed by the en
 
 [Apache Spark sample with NY Taxi data sample data processing from with containers using open source software Occlum](confidential-bigdl-spark/README.md)
 
-### Remote attestation Web API Helper for Confidential VM's (AMD SEV-SNP) on AKS
-
-[Confidential VM (AMD SEV-SNP) Remote Attestation Web API Helper Sample](cvm-python-app-remoteattest/readme.md)
-
-### Confidential Azure Container Instances ( ACI )  demo with remote attestation
-
-[Confidential ACI demo](confidential-aci-demo/README.md)
 
 ## Contributing
 
