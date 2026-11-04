@@ -16,7 +16,7 @@ urlFragment: confidential-containers-samples
 
 # DEPRECATION NOTICE
 
-This repository is being deprecated, but remains for the time-being to preserve legacy content, please see [our new, consolidated repository](https://github.com/Azure-Samples/confidential-computing) for more recent samples leveraging Azure Confidential Computing.
+This repository is deprecated and retained for legacy reference only. For current Azure Confidential Computing samples, visit [https://aka.ms/accsamples](https://aka.ms/accsamples).
 
 
 # Confidential container samples
@@ -35,10 +35,6 @@ Confidential containers are a set of capabilities that allow standard containers
 ## How to use this template repository
 
 This repo is organized by folders that states the sample name followed by the enablers of confidential containers. A typical folder name follows this standard < samplename >-< enabername > :
-
-### Confidential Healthcare Application on Intel SGX based confidential containers
-
-[Confidential HealthCare Implementation with Scone, Confidential Inferencing & Azure Attestation](confidential-healthcare-scone-confinf-onnx/README.md)
 
 ### Confidential NLP Inferencing using ACI
 
